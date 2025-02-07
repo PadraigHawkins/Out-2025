@@ -3,74 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Pubs</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFbKHEHoYUAOTsqaOu1ZuRleo4IT0AZ34=places"></script>
-
-
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3S5PMLPMEJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-3S5PMLPMEJ');
-</script>
-
-
-    <title>Out Tonight</title>
 </head>
 <body>
 
-    
     <div class="app-container">
         <header class="app-header">
-            <h1>Out Tonight</h1>
+            <h1>Find a Nearby Pub</h1>
         </header>
+
         <main class="app-content">
-            <h2 class="pub-list-header">-Dublin-</h2> <!-- New Header -->
-            <div class="name-container">
-                <div id="pub-list"></div>
-                <h2><a id="itemLink" href="#" target="_blank">Click the button, find a pub!</a></h2>
+            <div id="name-container" class="name-container">
+                <h2>Fetching pubs...</h2>
             </div>
-            <button class="change-name-button">Change Bar</button>
-            
+            <button id="change-bar-button" class="change-name-button">Change Bar</button>
+        </main>
 
-           </main>
-
-
-
-
-
-
-           <footer class="app-footer">
-            <p>-Enjoy your pints-</p>
-            <p><a href="mailto:contact@outtonight.ie" class="email-link">Contact</a></p>
-          </footer>
-     </div>
-
-<!-- Cookie Consent Overlay -->
-<div id="overlay" class="overlay"></div>
-
-<!-- Cookie Consent Popup -->
-<div id="cookieConsentPopup" class="cookie-consent-popup">
-    <div class="cookie-consent-content">
-        <p>We use cookies to improve your experience. By using this site, you agree to our use of cookies.</p>
-        <button id="acceptCookiesButton" class="accept-cookies-button">Accept</button>
+        <footer class="app-footer">
+            <p>Powered by Google Places API</p>
+        </footer>
     </div>
-</div>
 
-     
     <script src="script.js"></script>
-
-
-
-
 
 </body>
 </html>
