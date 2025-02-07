@@ -3,32 +3,6 @@ const changeNameButton = document.querySelector('.change-name-button');
 const nameContainer = document.querySelector('.name-container');
 
 
-// Cookie Consent Popup Logic
-const cookieConsentPopup = document.getElementById('cookieConsentPopup');
-const acceptCookiesButton = document.getElementById('acceptCookiesButton');
-const overlay = document.getElementById('overlay');
-
-// Check if user has already accepted cookies
-if (!localStorage.getItem('cookieConsent')) {
-    // If not, show the cookie consent popup and overlay
-    cookieConsentPopup.style.display = 'block';
-    overlay.style.display = 'block';
-}
-
-// When user clicks on "Accept" button
-acceptCookiesButton.addEventListener('click', () => {
-    // Store user consent in localStorage
-    localStorage.setItem('cookieConsent', 'true');
-    
-    // Hide the popup and overlay after acceptance
-    cookieConsentPopup.style.display = 'none';
-    overlay.style.display = 'none';
-
-    // Initialize Google Analytics after consent
-    gtag('config', 'G-3S5PMLPMEJ'); // Replace with your GA ID
-});
-
-
 document.addEventListener("DOMContentLoaded", () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(getNearbyPubs, handleLocationError);
@@ -42,10 +16,10 @@ function getNearbyPubs(position) {
     const lng = position.coords.longitude;
     const location = new google.maps.LatLng(lat, lng);
 
-    const request = {
+    const request = { 
         location: location,
         radius: 1500, // Adjust search radius as needed
-        type: ["bar"] // Can also try "pub"
+        type: ["pub"] // Can also try "pub"
     };
 
     const service = new google.maps.places.PlacesService(document.createElement("div"));
@@ -57,20 +31,36 @@ function handleResults(results, status) {
         const pubListContainer = document.getElementById("pub-list");
         pubListContainer.innerHTML = ""; // Clear existing static list
 
-        results.forEach((place) => {
-            const pubElement = document.createElement("div");
-            pubElement.classList.add("name-container");
+        let index = 0;
 
-            pubElement.innerHTML = `
-                <h2>${place.name}</h2>
-                <p>${place.vicinity}</p>
-                <button class="change-name-button" onclick="calculateWalkingDistance(${place.geometry.location.lat()}, ${place.geometry.location.lng()})">
-                    Get Distance
-                </button>
-            `;
+        function showNextPub() {
+            if (index < results.length) {
+                const place = results[index];
+                const pubElement = document.createElement("div");
+                pubElement.classList.add("name-container");
+                pubElement.style.opacity = 0;
+                pubElement.style.transform = "translateY(20px)";
+                pubElement.innerHTML = `
+                    <h2>${place.name}</h2>
+                    <p>${place.vicinity}</p>
+                    <button class="change-name-button" onclick="calculateWalkingDistance(${place.geometry.location.lat()}, ${place.geometry.location.lng()})">
+                        Get Distance
+                    </button>
+                `;
+                
+                pubListContainer.appendChild(pubElement);
+                setTimeout(() => {
+                    pubElement.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+                    pubElement.style.opacity = 1;
+                    pubElement.style.transform = "translateY(0)";
+                }, 100);
+                
+                index++;
+                setTimeout(showNextPub, 1000); // Adjust delay between items appearing
+            }
+        }
 
-            pubListContainer.appendChild(pubElement);
-        });
+        showNextPub();
     } else {
         alert("No pubs found nearby.");
     }
@@ -108,10 +98,6 @@ function calculateWalkingDistance(lat, lng) {
         );
     });
 }
-
-
-
-
 
 
 
