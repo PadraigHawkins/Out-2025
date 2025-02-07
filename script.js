@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Function to fetch pubs from Google Places API
     function fetchPubs(latitude, longitude) {
         const apiKey = "AIzaSyAFbKHEHoYUAOTsqaOu1ZuRleo4IT0AZ34";
-        const radius = 20000; // Search radius in meters
+        const radius = 100000; // Search radius in meters
         const type = "bar";
         const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=${type}&key=${apiKey}`;
 
@@ -26,21 +26,23 @@ document.addEventListener("DOMContentLoaded", function () {
             });
     }
 
-    // Function to get user location
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                position => {
-                    fetchPubs(position.coords.latitude, position.coords.longitude);
-                },
-                () => {
-                    nameContainer.innerHTML = "Could not get location. Please enable location services and try again.";
-                }
-            );
-        } else {
-            nameContainer.innerHTML = "Geolocation is not supported by this browser.";
-        }
+   // Function to get user location
+   function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                fetchPubs(position.coords.latitude, position.coords.longitude);
+            },
+            error => {
+                console.error("Geolocation error:", error);
+                nameContainer.innerHTML = "Could not get location. Please enable location services and try again.";
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    } else {
+        nameContainer.innerHTML = "Geolocation is not supported by this browser.";
     }
+}
 
     // Function to randomly change bar
     function changeBar() {
