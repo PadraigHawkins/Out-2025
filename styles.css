@@ -1,0 +1,181 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff6cf;
+    
+}
+
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-header {
+    background-color: #fff6cf;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color:#ff6b00;
+    padding: 20px;
+    text-align: center;
+    position: sticky;
+    top: 0; /* Sticks the header to the top of the viewport */
+    z-index: 1000; /* Ensures the header stays above other content */
+}
+
+
+
+.pub-list-header {
+    font-size: 24px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #ff6b00;
+    margin-bottom: 20px;
+    font-weight:bolder;
+    text-align: center; /* Centers the header text */
+    text-transform:none; /* Optional: Adds a bold, impactful style */
+}
+
+
+
+.app-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.name-container {
+    margin-bottom: 20px;
+    padding: 20px; /* Space inside the border */
+    border: 1px solid #ff6a00; /* Dark border around the content */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #ffffff; /* Background color inside the container */
+    box-shadow: 0 4px 8px #0000001a; /* Light shadow effect */
+    position: relative;
+}
+
+.name-container h2 {
+    font-size: 24px;
+    color: #000000;
+    transition: transform 0.2s ease; /* Animation for jumping effect */
+}
+
+.name-container a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Link color */
+}
+
+.name-container a:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+.change-name-button {
+    background-color: #0056b3;
+    color: white;
+    border: 1px solid #000000; /* Dark border around the content */
+    padding: 15px 32px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.change-name-button:hover {
+    background-color: #005f7f;
+}
+
+
+
+
+
+
+/* Overlay for greying out the background */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent grey */
+    display: none; /* Hidden by default */
+    z-index: 9998; /* Ensure it's behind the popup */
+}
+
+/* Cookie Consent Popup */
+.cookie-consent-popup {
+    position: fixed;
+    top: 50%; /* Centers vertically */
+    left: 50%; /* Centers horizontally */
+    transform: translate(-50%, -50%); /* Adjusts the positioning to center exactly */
+    background-color: #fff6cf;
+    color: #333;
+    padding: 20px 30px;
+    border: 1px solid #ff6a00; /* Dark border around the content */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    display: none; /* Hidden by default */
+    z-index: 9999; /* Ensure it's above the overlay */
+    width: 80%; /* Optional: Set a width for responsiveness */
+    max-width: 500px; /* Optional: Set a max-width to avoid it being too large */
+    text-align: center; /* Center the text */
+}
+
+/* Content inside the popup */
+.cookie-consent-popup .cookie-consent-content {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+/* Text inside the popup */
+.cookie-consent-popup p {
+    margin-bottom: 20px; /* Add space below the text */
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+/* Accept Cookies Button */
+.accept-cookies-button {
+    background-color: #ff6b00;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.accept-cookies-button:hover {
+    background-color: #c75605;
+}
+
+
+
+
+
+.app-footer {
+    background-color: #fff6cf;
+    color: #ff6b00;
+    text-align: center;
+    padding: 15px;
+    position: sticky;
+    bottom: 0; /* Sticks the footer to the bottom of the viewport */
+    z-index: 1000; /* Ensures the footer stays above other content */
+}
+
+.email-link {
+    color: #ff6b00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.email-link:hover {
+    text-decoration: none;
+}
