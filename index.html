@@ -3,31 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nearby Pubs</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLStNUKDdSceRxEUAx-JNzG2q6efosqzQ"></script>
-
+    <title>Pub Finder</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        #info { padding: 1rem; background: #f4f4f4; }
+        button { padding: 10px 20px; background-color: #0073e6; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #005bb5; }
+        #map { height: 60vh; width: 100%; margin-top: 10px; }
+        #pub-list { padding: 1rem; background: #fff; }
+        .pub-item { padding: 10px; border-bottom: 1px solid #ddd; }
+    </style>
 </head>
 <body>
-
-    <div class="app-container">
-        <header class="app-header">
-            <h1>Find a Nearby Pub</h1>
-        </header>
-
-        <main class="app-content">
-            <div id="name-container" class="name-container">
-                <h2>Fetching pubs...</h2>
-            </div>
-            <button id="change-bar-button" class="change-name-button">Change Bar</button>
-        </main>
-
-        <footer class="app-footer">
-            <p>Powered by Google Places API</p>
-        </footer>
+    <h1>Find Pubs & Bars Near You</h1>
+    <div id="info">
+        <button onclick="getLocation()">Find Pubs Near Me</button>
+        <p id="status"></p>
     </div>
+    <div id="map"></div>
+    <div id="pub-list"></div>
 
-    <script src="script.js"></script>
+    <script>
+        let map;
+        let markers = [];
+        
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 53.344, lng: -6.2672 }, // Dublin City Centre
+                zoom: 14
+            });
+        }
 
+        function getLocation() {
+            // Set static location to Dublin City Centre for testing
+            const dublinCityCentre = { latitude: 53.344, longitude: -6.2672 };
+            showPosition({ coords: dublinCityCentre });
+        }
+
+        function showPosition(position) {
+            const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(userLocation);
+
+            new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                title: "You are here!",
+                icon: { url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" }
+            });
+
+            findNearbyPubs(userLocation);
+        }
+
+        function findNearbyPubs(location) {
+            const service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: location,
+                radius: 1500,
+                type: ['bar']
+            }, (results, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                    displayPubs(results);
+                    placeMarkers(results);
+                } else {
+                    document.getElementById('status').textContent = "No pubs found nearby.";
+                }
+            });
+        }
+
+        function displayPubs(pubs) {
+            const pubList = document.getElementById('pub-list');
+            pubList.innerHTML = "";
+            pubs.forEach(pub => {
+                const pubItem = document.createElement('div');
+                pubItem.className = "pub-item";
+                pubItem.textContent = pub.name;
+                pubList.appendChild(pubItem);
+            });
+        }
+
+        function placeMarkers(pubs) {
+            clearMarkers();
+            pubs.forEach(pub => {
+                const marker = new google.maps.Marker({
+                    position: pub.geometry.location,
+                    map: map,
+                    title: pub.name,
+                    icon: { url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png" }
+                });
+                markers.push(marker);
+            });
+        }
+
+        function clearMarkers() {
+            markers.forEach(marker => marker.setMap(null));
+            markers = [];
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDLStNUKDdSceRxEUAx-JNzG2q6efosqzQ&libraries=places&callback=initMap" async defer></script>
 </body>
 </html>
